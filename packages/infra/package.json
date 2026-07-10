@@ -1,0 +1,19 @@
+{
+  "name": "@flarekit/infra",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "alchemy deploy",
+    "destroy": "alchemy destroy",
+    "dev": "alchemy dev"
+  },
+  "dependencies": {
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@flarekit/config": "workspace:*",
+    "alchemy": "catalog:",
+    "typescript": "catalog:"
+  }
+}

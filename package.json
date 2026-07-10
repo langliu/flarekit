@@ -1,0 +1,47 @@
+{
+  "name": "flarekit",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "vp run -r build",
+    "check": "oxlint && oxfmt --write",
+    "check-types": "vp run -r check-types",
+    "db:generate": "vp run --filter @flarekit/db db:generate",
+    "deploy": "vp run --filter @flarekit/infra deploy",
+    "destroy": "vp run --filter @flarekit/infra destroy",
+    "dev": "vp run -r dev",
+    "dev:server": "vp run --filter server dev",
+    "dev:web": "vp run --filter web dev",
+    "format": "vp fmt",
+    "lint": "vp lint",
+    "staged": "vp staged"
+  },
+  "dependencies": {
+    "@flarekit/env": "workspace:*",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "catalog:",
+    "@flarekit/config": "workspace:*",
+    "@types/node": "catalog:",
+    "lefthook": "^2.1.9",
+    "oxfmt": "^0.57.0",
+    "oxlint": "^1.72.0",
+    "rolldown": "1.1.4",
+    "typescript": "catalog:",
+    "vite-plus": "0.2.2"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.2.2"
+  },
+  "engines": {
+    "node": ">=24.18.0",
+    "pnpm": ">=11.11.0"
+  },
+  "packageManager": "pnpm@11.11.0"
+}

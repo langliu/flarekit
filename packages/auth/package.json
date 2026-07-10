@@ -1,0 +1,26 @@
+{
+  "name": "@flarekit/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@flarekit/db": "workspace:*",
+    "@flarekit/env": "workspace:*",
+    "@polar-sh/better-auth": "catalog:",
+    "@polar-sh/sdk": "^0.47.1",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@flarekit/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}
