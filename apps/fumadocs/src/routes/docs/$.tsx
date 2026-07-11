@@ -1,9 +1,9 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
-import { staticFunctionMiddleware } from "@tanstack/start-static-server-functions";
-import browserCollections from "collections/browser";
-import { useFumadocsLoader } from "fumadocs-core/source/client";
-import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import { createFileRoute, Link, notFound } from '@tanstack/react-router'
+import { createServerFn } from '@tanstack/react-start'
+import { staticFunctionMiddleware } from '@tanstack/start-static-server-functions'
+import browserCollections from 'collections/browser'
+import { useFumadocsLoader } from 'fumadocs-core/source/client'
+import { DocsLayout } from 'fumadocs-ui/layouts/docs'
 import {
   DocsBody,
   DocsDescription,
@@ -11,39 +11,39 @@ import {
   DocsTitle,
   MarkdownCopyButton,
   ViewOptionsPopover,
-} from "fumadocs-ui/layouts/docs/page";
-import { Suspense } from "react";
+} from 'fumadocs-ui/layouts/docs/page'
+import { Suspense } from 'react'
 
-import { useMDXComponents } from "@/components/mdx";
-import { baseOptions } from "@/lib/layout.shared";
-import { gitConfig } from "@/lib/shared";
-import { slugsToMarkdownPath, source } from "@/lib/source";
+import { useMDXComponents } from '@/components/mdx'
+import { baseOptions } from '@/lib/layout.shared'
+import { gitConfig } from '@/lib/shared'
+import { slugsToMarkdownPath, source } from '@/lib/source'
 
-export const Route = createFileRoute("/docs/$")({
+export const Route = createFileRoute('/docs/$')({
   component: Page,
   loader: async ({ params }) => {
-    const slugs = params._splat?.split("/") ?? [];
-    const data = await loader({ data: slugs });
-    await clientLoader.preload(data.path);
-    return data;
+    const slugs = params._splat?.split('/') ?? []
+    const data = await loader({ data: slugs })
+    await clientLoader.preload(data.path)
+    return data
   },
-});
+})
 
 const loader = createServerFn({
-  method: "GET",
+  method: 'GET',
 })
   .validator((slugs: string[]) => slugs)
   .middleware([staticFunctionMiddleware])
   .handler(async ({ data: slugs }) => {
-    const page = source.getPage(slugs);
-    if (!page) throw notFound();
+    const page = source.getPage(slugs)
+    if (!page) throw notFound()
 
     return {
       path: page.path,
       markdownUrl: slugsToMarkdownPath(page.slugs).url,
       pageTree: await source.serializePageTree(source.getPageTree()),
-    };
-  });
+    }
+  })
 
 const clientLoader = browserCollections.docs.createClientLoader({
   component(
@@ -53,15 +53,15 @@ const clientLoader = browserCollections.docs.createClientLoader({
       markdownUrl,
       path,
     }: {
-      markdownUrl: string;
-      path: string;
+      markdownUrl: string
+      path: string
     },
   ) {
     return (
       <DocsPage toc={toc}>
         <DocsTitle>{frontmatter.title}</DocsTitle>
         <DocsDescription>{frontmatter.description}</DocsDescription>
-        <div className="-mt-4 flex flex-row items-center gap-2 border-b pb-6">
+        <div className='-mt-4 flex flex-row items-center gap-2 border-b pb-6'>
           <MarkdownCopyButton markdownUrl={markdownUrl} />
           <ViewOptionsPopover
             markdownUrl={markdownUrl}
@@ -72,17 +72,17 @@ const clientLoader = browserCollections.docs.createClientLoader({
           <MDX components={useMDXComponents()} />
         </DocsBody>
       </DocsPage>
-    );
+    )
   },
-});
+})
 
 function Page() {
-  const { pageTree, path, markdownUrl } = useFumadocsLoader(Route.useLoaderData());
+  const { pageTree, path, markdownUrl } = useFumadocsLoader(Route.useLoaderData())
 
   return (
     <DocsLayout {...baseOptions()} tree={pageTree}>
       <Link to={markdownUrl} hidden />
       <Suspense>{clientLoader.useContent(path, { markdownUrl, path })}</Suspense>
     </DocsLayout>
-  );
+  )
 }

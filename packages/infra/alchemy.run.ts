@@ -1,23 +1,23 @@
-import alchemy from "alchemy";
-import { TanStackStart } from "alchemy/cloudflare";
-import { Worker } from "alchemy/cloudflare";
-import { D1Database } from "alchemy/cloudflare";
-import { config } from "dotenv";
+import alchemy from 'alchemy'
+import { TanStackStart } from 'alchemy/cloudflare'
+import { Worker } from 'alchemy/cloudflare'
+import { D1Database } from 'alchemy/cloudflare'
+import { config } from 'dotenv'
 
-config({ path: "./.env" });
-config({ path: "../../apps/web/.env" });
-config({ path: "../../apps/server/.env" });
+config({ path: './.env' })
+config({ path: '../../apps/web/.env' })
+config({ path: '../../apps/server/.env' })
 
-const app = await alchemy("flarekit");
+const app = await alchemy('flarekit')
 
-const db = await D1Database("database", {
-  migrationsDir: "../../packages/db/src/migrations",
-});
+const db = await D1Database('database', {
+  migrationsDir: '../../packages/db/src/migrations',
+})
 
-export const server = await Worker("server", {
-  cwd: "../../apps/server",
-  entrypoint: "src/index.ts",
-  compatibility: "node",
+export const server = await Worker('server', {
+  cwd: '../../apps/server',
+  entrypoint: 'src/index.ts',
+  compatibility: 'node',
   url: true,
   bindings: {
     DB: db,
@@ -30,10 +30,10 @@ export const server = await Worker("server", {
   dev: {
     port: 3000,
   },
-});
+})
 
-export const web = await TanStackStart("web", {
-  cwd: "../../apps/web",
+export const web = await TanStackStart('web', {
+  cwd: '../../apps/web',
   bindings: {
     VITE_SERVER_URL: server.url!,
     DB: db,
@@ -43,9 +43,9 @@ export const web = await TanStackStart("web", {
     POLAR_ACCESS_TOKEN: alchemy.secret.env.POLAR_ACCESS_TOKEN!,
     POLAR_SUCCESS_URL: alchemy.env.POLAR_SUCCESS_URL!,
   },
-});
+})
 
-console.log(`Web    -> ${web.url}`);
-console.log(`Server -> ${server.url}`);
+console.log(`Web    -> ${web.url}`)
+console.log(`Server -> ${server.url}`)
 
-await app.finalize();
+await app.finalize()

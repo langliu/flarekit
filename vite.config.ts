@@ -1,20 +1,21 @@
-import { defineConfig } from "vite-plus";
+import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
   lint: {
     ignorePatterns: [
-      "node_modules/**",
-      "**/node_modules/**",
-      "apps/web/dist/**",
-      "apps/web/.vinxi/**",
-      "apps/web/.tanstack/**",
-      "apps/web/src/routeTree.gen.ts",
-      "apps/server/dist/**",
-      "packages/db/dist/**",
-      ".alchemy/**",
-      ".wrangler/**",
-      ".agents/**",
-      "**/.wrangler/**",
+      'node_modules/**',
+      '**/node_modules/**',
+      'apps/web/dist/**',
+      'apps/web/.vinxi/**',
+      'apps/web/.tanstack/**',
+      'apps/web/src/routeTree.gen.ts',
+      'apps/fumadocs/src/routeTree.gen.ts',
+      'apps/server/dist/**',
+      'packages/db/dist/**',
+      '.alchemy/**',
+      '.wrangler/**',
+      '.agents/**',
+      '**/.wrangler/**',
     ],
     options: {
       typeAware: false,
@@ -23,18 +24,19 @@ export default defineConfig({
   },
   fmt: {
     ignorePatterns: [
-      "node_modules/**",
-      "**/node_modules/**",
-      "apps/web/dist/**",
-      "apps/web/.vinxi/**",
-      "apps/web/.tanstack/**",
-      "apps/web/src/routeTree.gen.ts",
-      "apps/server/dist/**",
-      "packages/db/dist/**",
-      ".agents/**",
-      ".alchemy/**",
-      ".wrangler/**",
-      "**/.wrangler/**",
+      'node_modules/**',
+      '**/node_modules/**',
+      'apps/web/dist/**',
+      'apps/web/.vinxi/**',
+      'apps/web/.tanstack/**',
+      'apps/web/src/routeTree.gen.ts',
+      'apps/fumadocs/src/routeTree.gen.ts',
+      'apps/server/dist/**',
+      'packages/db/dist/**',
+      '.agents/**',
+      '.alchemy/**',
+      '.wrangler/**',
+      '**/.wrangler/**',
     ],
     jsxSingleQuote: true,
     singleQuote: true,
@@ -46,6 +48,6 @@ export default defineConfig({
     sortTailwindcss: true,
   },
   staged: {
-    "*.{js,ts,jsx,tsx,vue,svelte,json,jsonc,css,md}": "vp check --fix",
+    '*.{js,ts,jsx,tsx,vue,svelte,json,jsonc,css,md}': 'vp check --fix',
   },
-});
+})

@@ -6,5 +6,5 @@
 - 时间字段需要设置默认值时，必须使用：
 
   ```ts
-  sql`(cast(unixepoch('subsecond') * 1000 as integer))`;
+  sql`(cast(unixepoch('subsecond') * 1000 as integer))`
   ```

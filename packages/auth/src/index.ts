@@ -1,18 +1,18 @@
-import { createDb } from "@flarekit/db";
-import * as schema from "@flarekit/db/schema/auth";
-import { env } from "@flarekit/env/server";
-import { polar, checkout, portal } from "@polar-sh/better-auth";
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { createDb } from '@flarekit/db'
+import * as schema from '@flarekit/db/schema/auth'
+import { env } from '@flarekit/env/server'
+import { polar, checkout, portal } from '@polar-sh/better-auth'
+import { betterAuth } from 'better-auth'
+import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 
-import { polarClient } from "./lib/payments";
+import { polarClient } from './lib/payments'
 
 export function createAuth() {
-  const db = createDb();
+  const db = createDb()
 
   return betterAuth({
     database: drizzleAdapter(db, {
-      provider: "sqlite",
+      provider: 'sqlite',
 
       schema: schema,
     }),
@@ -31,7 +31,7 @@ export function createAuth() {
     baseURL: env.BETTER_AUTH_URL,
     advanced: {
       defaultCookieAttributes: {
-        sameSite: "none",
+        sameSite: 'none',
         secure: true,
         httpOnly: true,
       },
@@ -51,8 +51,8 @@ export function createAuth() {
           checkout({
             products: [
               {
-                productId: "your-product-id",
-                slug: "pro",
+                productId: 'your-product-id',
+                slug: 'pro',
               },
             ],
             successUrl: env.POLAR_SUCCESS_URL,
@@ -62,5 +62,5 @@ export function createAuth() {
         ],
       }),
     ],
-  });
+  })
 }

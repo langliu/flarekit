@@ -2,11 +2,7 @@
 # https://github.com/evilmartians/lefthook
 
 pre-commit:
-  parallel: true
   jobs:
-    - name: oxlint
-      run: pnpm oxlint --fix {staged_files}
-      stage_fixed: true
-    - name: oxfmt
-      run: pnpm oxfmt --write {staged_files}
+    - name: check
+      run: pnpm vp staged
       stage_fixed: true
