@@ -58,10 +58,10 @@ React web apps in this stack share shadcn/ui primitives through `packages/ui`.
 
 ### Add more shared components
 
-Run this from the project root to add more primitives to the shared UI package:
+Run this from the project root using the web app as the shadcn CLI context. Its `ui` alias writes primitives to the shared UI package:
 
 ```bash
-npx shadcn@latest add accordion dialog popover sheet table -c packages/ui
+pnpm dlx shadcn@latest add accordion dialog popover sheet table -c apps/web
 ```
 
 Import shared components like this:
