@@ -1,8 +1,8 @@
-import { Button } from '@flarekit/ui/components/button'
+import { Button, buttonVariants } from '@flarekit/ui/components/button'
 import { Input } from '@flarekit/ui/components/input'
 import { Label } from '@flarekit/ui/components/label'
 import { useForm } from '@tanstack/react-form'
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import z from 'zod'
 
@@ -10,9 +10,9 @@ import { authClient } from '@/lib/auth-client'
 
 import Loader from './loader'
 
-export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) {
+export default function SignInForm() {
   const navigate = useNavigate({
-    from: '/',
+    from: '/login',
   })
   const { isPending } = authClient.useSession()
 
@@ -122,13 +122,9 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
       </form>
 
       <div className='mt-4 text-center'>
-        <Button
-          variant='link'
-          onClick={onSwitchToSignUp}
-          className='text-indigo-600 hover:text-indigo-800'
-        >
+        <Link to='/register' className={buttonVariants({ variant: 'link' })}>
           Need an account? Sign Up
-        </Button>
+        </Link>
       </div>
     </div>
   )

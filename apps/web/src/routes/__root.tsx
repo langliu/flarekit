@@ -15,6 +15,17 @@ import type { orpc } from '@/utils/orpc'
 import Header from '../components/header'
 
 import appCss from '../index.css?url'
+
+const HEADERLESS_PATHS = new Set(['/login', '/register'])
+
+function shouldHideHeader(pathname: string) {
+  return (
+    HEADERLESS_PATHS.has(pathname) ||
+    pathname === '/dashboard' ||
+    pathname.startsWith('/dashboard/')
+  )
+}
+
 export interface RouterAppContext {
   orpc: typeof orpc
   queryClient: QueryClient
@@ -46,8 +57,8 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 })
 
 function RootDocument() {
-  const isDashboard = useRouterState({
-    select: (state) => state.location.pathname.startsWith('/dashboard'),
+  const hidesHeader = useRouterState({
+    select: (state) => shouldHideHeader(state.location.pathname),
   })
 
   return (
@@ -56,8 +67,8 @@ function RootDocument() {
         <HeadContent />
       </head>
       <body>
-        <div className={isDashboard ? 'h-svh' : 'grid h-svh grid-rows-[auto_1fr]'}>
-          {isDashboard ? null : <Header />}
+        <div className={hidesHeader ? 'h-svh' : 'grid h-svh grid-rows-[auto_1fr]'}>
+          {hidesHeader ? null : <Header />}
           <Outlet />
         </div>
         <Toaster richColors />
