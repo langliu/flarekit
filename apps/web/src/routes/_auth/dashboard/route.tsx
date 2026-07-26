@@ -11,7 +11,10 @@ export const Route = createFileRoute('/_auth/dashboard')({
 
 function DashboardLayout() {
   const { session } = Route.useRouteContext()
-  const user = session.data.user
+  const user = session.data?.user
+  if (!user) {
+    return null
+  }
 
   return (
     <SidebarProvider
@@ -25,6 +28,7 @@ function DashboardLayout() {
       <AppSidebar
         variant='inset'
         user={{
+          id: user.id,
           name: user.name,
           email: user.email,
           avatar: user.image,

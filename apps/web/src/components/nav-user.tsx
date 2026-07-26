@@ -25,6 +25,7 @@ import {
 import { useState } from 'react'
 import { toast } from 'sonner'
 
+import type { SettingsTab } from '@/components/settings-dialog'
 import { authClient } from '@/lib/auth-client'
 
 function getInitials(name: string, email: string) {
@@ -40,8 +41,10 @@ function getInitials(name: string, email: string) {
 }
 
 export function NavUser({
+  onOpenSettings,
   user,
 }: {
+  onOpenSettings: (tab: SettingsTab) => void
   user: {
     name: string
     email: string
@@ -114,7 +117,7 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onOpenSettings('account')}>
                 <CircleUserRoundIcon />
                 Account
               </DropdownMenuItem>
@@ -122,7 +125,7 @@ export function NavUser({
                 <CreditCardIcon />
                 Billing
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onOpenSettings('notifications')}>
                 <BellIcon />
                 Notifications
               </DropdownMenuItem>

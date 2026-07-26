@@ -29,6 +29,7 @@ import { NavDocuments } from '@/components/nav-documents'
 import { NavMain } from '@/components/nav-main'
 import { NavSecondary } from '@/components/nav-secondary'
 import { NavUser } from '@/components/nav-user'
+import { SettingsDialog, type SettingsTab } from '@/components/settings-dialog'
 
 const data = {
   navMain: [
@@ -109,7 +110,7 @@ const data = {
   navSecondary: [
     {
       title: 'Settings',
-      url: '#',
+      action: 'settings' as const,
       icon: <Settings2Icon />,
     },
     {
@@ -144,6 +145,7 @@ const data = {
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   user: {
+    id: string
     name: string
     email: string
     avatar?: string | null
@@ -151,29 +153,53 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 }
 
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
+  const [currentName, setCurrentName] = React.useState(user.name)
+  const [settingsOpen, setSettingsOpen] = React.useState(false)
+  const [settingsTab, setSettingsTab] = React.useState<SettingsTab>('account')
+
+  function openSettings(tab: SettingsTab) {
+    setSettingsTab(tab)
+    setSettingsOpen(true)
+  }
+
   return (
-    <Sidebar collapsible='offcanvas' {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              className='data-[slot=sidebar-menu-button]:p-1.5!'
-              render={<a href='#' />}
-            >
-              <CommandIcon className='size-5!' />
-              <span className='text-base font-semibold'>Acme Inc.</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className='mt-auto' />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={user} />
-      </SidebarFooter>
-    </Sidebar>
+    <>
+      <Sidebar collapsible='offcanvas' {...props}>
+        <SidebarHeader>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                className='data-[slot=sidebar-menu-button]:p-1.5!'
+                render={<a href='#' />}
+              >
+                <CommandIcon className='size-5!' />
+                <span className='text-base font-semibold'>Acme Inc.</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarHeader>
+        <SidebarContent>
+          <NavMain items={data.navMain} />
+          <NavDocuments items={data.documents} />
+          <NavSecondary
+            items={data.navSecondary}
+            className='mt-auto'
+            onAction={() => openSettings('account')}
+          />
+        </SidebarContent>
+        <SidebarFooter>
+          <NavUser user={{ ...user, name: currentName }} onOpenSettings={openSettings} />
+        </SidebarFooter>
+      </Sidebar>
+      {settingsOpen ? (
+        <SettingsDialog
+          open={settingsOpen}
+          initialTab={settingsTab}
+          user={{ ...user, name: currentName }}
+          onNameChange={setCurrentName}
+          onOpenChange={setSettingsOpen}
+        />
+      ) : null}
+    </>
   )
 }

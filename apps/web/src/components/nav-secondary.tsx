@@ -11,13 +11,16 @@ import * as React from 'react'
 
 export function NavSecondary({
   items,
+  onAction,
   ...props
 }: {
   items: {
     title: string
-    url: string
+    url?: string
+    action?: 'settings'
     icon: React.ReactNode
   }[]
+  onAction?: (action: 'settings') => void
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   return (
     <SidebarGroup {...props}>
@@ -25,7 +28,11 @@ export function NavSecondary({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton render={<a href={item.url} />}>
+              <SidebarMenuButton
+                type={item.action ? 'button' : undefined}
+                onClick={item.action ? () => onAction?.('settings') : undefined}
+                render={item.url ? <a href={item.url} /> : undefined}
+              >
                 {item.icon}
                 <span>{item.title}</span>
               </SidebarMenuButton>
