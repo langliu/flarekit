@@ -26,7 +26,6 @@ catalog:
   sonner: ^2.0.7
   tailwindcss: ^4.3.2
   '@orpc/client': ^1.14.6
-  '@polar-sh/better-auth': ^1.8.4
   '@types/react': ^19.2.17
   '@types/react-dom': ^19.2.3
   drizzle-orm: ^0.45.2
