@@ -6,17 +6,23 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@flarekit/ui/components/sidebar'
+import { Link, useMatchRoute } from '@tanstack/react-router'
 import { CirclePlusIcon, MailIcon } from 'lucide-react'
+
+type NavRoute = '/dashboard' | '/dashboard/users'
 
 export function NavMain({
   items,
 }: {
   items: {
     title: string
-    url: string
+    url?: string
+    to?: NavRoute
     icon?: React.ReactNode
   }[]
 }) {
+  const matchRoute = useMatchRoute()
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className='flex flex-col gap-2'>
@@ -40,14 +46,22 @@ export function NavMain({
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            const isActive = item.to ? Boolean(matchRoute({ to: item.to, fuzzy: false })) : false
+
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  isActive={isActive}
+                  render={item.to ? <Link to={item.to} /> : <a href={item.url ?? '#'} />}
+                >
+                  {item.icon}
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

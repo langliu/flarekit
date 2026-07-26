@@ -35,7 +35,7 @@ const data = {
   navMain: [
     {
       title: 'Dashboard',
-      url: '#',
+      to: '/dashboard' as const,
       icon: <LayoutDashboardIcon />,
     },
     {
@@ -54,8 +54,8 @@ const data = {
       icon: <FolderIcon />,
     },
     {
-      title: 'Team',
-      url: '#',
+      title: '用户',
+      to: '/dashboard/users' as const,
       icon: <UsersIcon />,
     },
   ],
