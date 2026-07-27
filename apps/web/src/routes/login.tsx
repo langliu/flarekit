@@ -1,11 +1,53 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import { GalleryVerticalEnd } from 'lucide-react'
+import z from 'zod'
 
 import SignInForm from '@/components/sign-in-form'
+import { authClient } from '@/lib/auth-client'
+import { getSafeAuthRedirect } from '@/lib/auth-redirect'
 
 export const Route = createFileRoute('/login')({
+  ssr: false,
+  validateSearch: z.object({
+    redirect: z.string().optional(),
+  }),
+  beforeLoad: async ({ search }) => {
+    const session = await authClient.getSession()
+
+    if (session.data) {
+      throw redirect({
+        to: getSafeAuthRedirect(search.redirect),
+      })
+    }
+  },
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <SignInForm />
+  return (
+    <div lang='zh-CN' className='grid min-h-svh lg:grid-cols-2'>
+      <div className='flex flex-col gap-4 p-6 md:p-10'>
+        <div className='flex justify-center gap-2 md:justify-start'>
+          <a href='#' className='flex items-center gap-2 font-medium'>
+            <div className='bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md'>
+              <GalleryVerticalEnd className='size-4' />
+            </div>
+            Flarekit.
+          </a>
+        </div>
+        <div className='flex flex-1 items-center justify-center'>
+          <div className='w-full max-w-xs'>
+            <SignInForm />
+          </div>
+        </div>
+      </div>
+      <div className='bg-muted relative hidden lg:block'>
+        <img
+          src='/placeholder.svg'
+          alt='登录页背景'
+          className='absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
+        />
+      </div>
+    </div>
+  )
 }

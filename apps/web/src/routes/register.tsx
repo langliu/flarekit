@@ -1,9 +1,20 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { GalleryVerticalEnd } from 'lucide-react'
 
 import SignUpForm from '@/components/sign-up-form'
+import { authClient } from '@/lib/auth-client'
 
 export const Route = createFileRoute('/register')({
+  ssr: false,
+  beforeLoad: async () => {
+    const session = await authClient.getSession()
+
+    if (session.data) {
+      throw redirect({
+        to: '/dashboard',
+      })
+    }
+  },
   component: RouteComponent,
 })
 
@@ -16,7 +27,7 @@ function RouteComponent() {
             <div className='bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md'>
               <GalleryVerticalEnd className='size-4' />
             </div>
-            Acme Inc.
+            Flarekit.
           </a>
         </div>
         <div className='flex flex-1 items-center justify-center'>
