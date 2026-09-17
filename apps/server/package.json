@@ -3,7 +3,7 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsdown",
+    "build": "vp pack",
     "check-types": "tsc -b",
     "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server"
   },
@@ -25,7 +25,6 @@
     "@flarekit/config": "workspace:*",
     "@types/node": "catalog:",
     "alchemy": "catalog:",
-    "tsdown": "^0.22.3",
     "typescript": "catalog:",
     "wrangler": "catalog:"
   }

@@ -2,14 +2,16 @@
 node_modules
 .pnp
 .pnp.js
+.pnpm-store
 
 # Build outputs
 dist
 build
+.output
 *.tsbuildinfo
 
 # Generated files
-apps/web/src/routeTree.gen.ts
+**/routeTree.gen.ts
 
 # Environment variables
 .env
@@ -40,9 +42,12 @@ lerna-debug.log*
 .turbo
 .nx
 
-# Better-T-Stack
+# Frameworks & Cloudflare
 .alchemy
 .vercel
+.vinxi
+.tanstack
+.wrangler
 
 # Testing
 coverage
