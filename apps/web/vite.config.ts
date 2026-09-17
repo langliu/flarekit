@@ -6,12 +6,14 @@ import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
 import alchemy from 'alchemy/cloudflare/tanstack-start'
 import { defineConfig } from 'vite-plus'
+
 const alchemyConfigPath = fileURLToPath(new URL('./.alchemy/local/wrangler.jsonc', import.meta.url))
 const shouldUseAlchemy = existsSync(alchemyConfigPath)
 const cloudflareWorkersShimPath = fileURLToPath(
   new URL('../../packages/env/src/cloudflare-local.ts', import.meta.url),
 )
-const cloudflareWorkersAlias = shouldUseAlchemy
+
+const cloudflareWorkersAlias: Record<string, string> = shouldUseAlchemy
   ? {}
   : {
       'cloudflare:workers': cloudflareWorkersShimPath,
@@ -30,5 +32,5 @@ export default defineConfig({
     tanstackStart(),
     viteReact(),
     ...(shouldUseAlchemy ? [alchemy({ configPath: alchemyConfigPath })] : []),
-  ],
+  ] as any,
 })
